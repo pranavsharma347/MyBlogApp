@@ -1,0 +1,48 @@
+{%extends 'BlogApp/base.html'%}
+{%block blogactive%}active{%endblock%}
+{%block title%}
+Blog
+{%endblock%}
+
+{%block parent%}
+{%for message in messages%}
+<div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+  <strong>Message:</strong> {{message}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{%endfor%}
+
+<div class="container my-3">
+     {%for posts in post%}
+<div class="blog-post">
+        <h2 class="blog-post-title">{{posts.title}}</h2>
+    <p class="blog-post-meta">{{posts.timestamp}} </p> by <a href="#">{{posts.author}}</a>
+    <p>{{posts.content}}</p>
+</div>
+    {%endfor%}
+    </div>
+
+
+<div class="container">
+    <h2>Comments {{comment.count}} </h2>
+    {%for x in comment%}
+    <p>{{x.user}} at {{x.timestamp|timesince}} ago</p><p>{{x.comment}}</p>
+{%endfor%}
+
+    <form method="post" action="/blogComment/">
+        {% csrf_token %}
+        {%for posts in post%}
+        <div class="form-group my-2">
+
+            <textarea class="form-control" name='comment' id="comment" cols="10" rows="5" placeholder="Enter your comment here"></textarea>
+        </div>
+        <div class="form-group">
+        <input type="hidden" name="postno" value={{posts.serialno}}>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Submit">
+        {%endfor%}
+    </form>
+</div>
+{%endblock%}
