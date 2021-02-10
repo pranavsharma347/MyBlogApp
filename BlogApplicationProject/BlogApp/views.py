@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from BlogApp.models import ContactUs,Post,BlogComment
 from django.contrib import messages
-from django.http import HttpResponse
+from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 
@@ -130,7 +130,16 @@ def searchpost(request):
 
 
 
-
+def sharebymail(request):
+    if request.method=='POST':
+        to=request.POST['to']
+        subject=request.POST['subject']
+        message=request.POST['message']
+        postsno = request.POST.get('postno')
+        post = Post.objects.get(serialno=postsno)
+        send_mail(subject,message,'javashrm@gmail.com',[to],fail_silently=False)
+        messages.success(request,'mail sent succeesfully')
+        return redirect('blogpost',slug=post.slug)
 
 def userlogout(request):
     #del request.session['uid']

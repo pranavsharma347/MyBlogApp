@@ -31,5 +31,6 @@ urlpatterns = [
     path('blogComment/',views.blogComment,name='blogComment'),
     path('loginlogout/',views.baseloginlogout),
     path('basesignup/',views.basesignup,name='basesignup'),
-    path('',views.baselogin,name='baselogin')
+    path('',views.baselogin,name='baselogin'),
+    path('sharebymail/',views.sharebymail,name='sharebymail')
 ]
